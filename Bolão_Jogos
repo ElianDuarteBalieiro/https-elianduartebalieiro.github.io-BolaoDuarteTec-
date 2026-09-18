@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bolão DuarteTec ⚽</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="logo-duarte-tec.png" type="image/png" sizes="192x192">
+    <meta name="theme-color" content="#121212">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --card-bg: #18181b;
+            --input-bg: #222226;
+            --primary: #e50914;
+            --success: #00ff66;
+            --warning: #ffcc00;
+            --info: #00ccff;
+            --whatsapp: #25D366;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --border-color: #27272a;
+            --radius-padrao: 16px;
+            --radius-input: 10px;
+        }
+
+        * { box-sizing: border-box; word-break: break-word; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 12px 10px; display: flex; justify-content: center; -webkit-font-smoothing: antialiased; }
+        .container { max-width: 480px; width: 100%; }
+
+        .nav-tabs { display: flex; margin-bottom: 16px; background: var(--card-bg); border-radius: var(--radius-padrao); overflow-x: auto; border: 1px solid var(--border-color); padding: 4px; gap: 4px; scrollbar-width: none; }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn { flex: 1; min-width: 82px; padding: 10px 6px; background: transparent; color: var(--text-muted); border: none; cursor: pointer; font-weight: 600; font-size: 11px; transition: all 0.25s ease; border-radius: 10px; text-align: center; }
+        .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 2px 10px rgba(229, 9, 20, 0.4); }
+
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-padrao); padding: 20px 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 16px; }
+        .app-logo { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 2px solid var(--info); margin: 0 auto 12px auto; display: block; }
+        .header h1 { margin: 0; font-size: 18px; font-weight: 700; text-transform: uppercase; color: var(--info); }
+        .header h2 { margin: 4px 0 0; font-size: 14px; color: #fff; font-weight: 500; }
+        .cota-text { margin: 8px 0 0; font-size: 16px; font-weight: 700; color: var(--success); }
+        .regra-minuscula { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+        .form-group { margin-bottom: 14px; }
+        label { display: block; font-size: 12px; margin-bottom: 6px; color: var(--text-muted); font-weight: 600; }
+        input, select { width: 100%; padding: 12px 14px; border-radius: var(--radius-input); border: 1px solid #3f3f46; background-color: var(--input-bg); color: #fff; box-sizing: border-box; font-family: 'Poppins', sans-serif; font-size: 14px; }
+        input:focus, select:focus { outline: none; border-color: var(--info); box-shadow: 0 0 0 2px rgba(0,204,255,0.2); }
+
+        .placar-container { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 12px 0 20px; background: #1f1f23; padding: 14px 10px; border-radius: var(--radius-padrao); border: 1px solid var(--border-color); }
+        .team-box { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .team-logo { width: 40px; height: 40px; object-fit: contain; margin-bottom: 6px; }
+        .team-label { font-size: 12px; font-weight: 600; color: #fff; }
+        .placar-container input { width: 52px; text-align: center; font-size: 20px; font-weight: 700; padding: 8px 2px; }
+        .versus-divider { color: var(--primary); font-weight: 800; font-size: 16px; }
+
+        .btn-main { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: var(--radius-input); font-weight: 700; width: 100%; cursor: pointer; font-size: 14px; text-transform: uppercase; }
+        .btn-secundary { background: #27272a; color: #fff; border: none; padding: 10px 12px; border-radius: var(--radius-input); cursor: pointer; font-size: 11px; font-weight: 600; }
+        .btn-whatsapp { display: block; background-color: var(--whatsapp); color: white; padding: 14px; text-decoration: none; border-radius: var(--radius-input); font-weight: 700; text-align: center; margin-bottom: 12px; }
+        .btn-outline { background: transparent; border: 1px solid #52525b; color: var(--text-muted); padding: 10px; border-radius: var(--radius-input); cursor: pointer; width: 100%; font-weight: 600; }
+        
+        .pix-container { background-color: #121214; border: 1px dashed rgba(0, 255, 102, 0.4); border-radius: var(--radius-padrao); padding: 14px; text-align: center; margin-bottom: 16px; }
+
+        .jogo-ativo-card { background: var(--input-bg); border: 1px solid var(--info); border-radius: var(--radius-padrao); padding: 14px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
+        .jogo-ativo-card:hover { background: #2a2a2e; }
+        .jogo-ativo-header { text-align: center; font-size: 11px; color: var(--info); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        
+        .grid-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+        .stat-card { background: var(--input-bg); padding: 12px; border-radius: var(--radius-padrao); text-align: center; border: 1px solid var(--border-color); }
+        .stat-card h4 { margin: 0; font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        .stat-card p { margin: 6px 0 0; font-size: 16px; font-weight: 700; color: var(--success); }
+
+        .table-wrapper { overflow-x: auto; background: var(--input-bg); border-radius: var(--radius-padrao); padding: 4px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+        th, td { padding: 10px 8px; border-bottom: 1px solid var(--border-color); text-align: left; }
+        th { background: #1c1c20; color: var(--text-muted); font-size: 10px; }
+
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
+        .badge-pendente { background: rgba(255, 204, 0, 0.15); color: var(--warning); }
+        .badge-confirmado { background: rgba(0, 255, 102, 0.15); color: var(--success); }
+        .badge-cancelado { background: rgba(229, 9, 20, 0.15); color: var(--primary); }
+        .badge-vencedor { background: var(--success); color: #000; box-shadow: 0 0 10px rgba(0,255,102,0.4); }
+
+        .jogo-card-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: var(--radius-padrao); padding: 12px; margin-bottom: 10px; }
+        .jogo-card-header { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 8px; }
+        .jogo-placar-body { display: flex; align-items: center; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" id="btnTabApostador" onclick="mudarAba('apostador')">Palpite</button>
+        <button class="tab-btn" id="btnTabTransparencia" onclick="mudarAba('transparencia')">Painel 📊</button>
+        <button class="tab-btn" id="btnTabConsultar" onclick="mudarAba('consultar')">Consultar 🔍</button>
+        <button class="tab-btn" id="btnTabJogos" onclick="mudarAba('jogos')">Jogos ⚽</button>
+        <button class="tab-btn" id="btnTabAdmin" onclick="mudarAba('admin')">Banca 🔒</button>
+    </div>
+
+    <!-- 1. ÁREA DO APOSTADOR -->
+    <div id="areaApostador" class="card">
+        <div class="header">
+            <img src="logo-duarte-tec.png" alt="Duarte Tec" class="app-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg';">
+            <h1>Bolão DuarteTec</h1>
+            <p class="cota-text">🎁 RODADA GRATUITA!</p>
+            <span class="regra-minuscula">Faça seu palpite 100% grátis e participe!</span>
+        </div>
+
+        <!-- LISTA DE JOGOS DISPONÍVEIS -->
+        <div id="listaJogosParaApostar">
+            <h3 style="font-size: 13px; text-align: center; color: var(--text-muted);">Selecione um jogo para palpitar:</h3>
+            <div id="containerJogosAtivos" style="margin-top: 10px;">
+                <p style="text-align:center;">Carregando jogos...</p>
+            </div>
+        </div>
+
+        <!-- FORMULÁRIO DE APOSTA -->
+        <div id="formApostaContainer" style="display: none;">
+            <button class="btn-secundary" style="margin-bottom: 12px; width: 100%;" onclick="voltarListaJogos()">⬅️ Voltar para lista de jogos</button>
+            
+            <h2 id="tituloJogoAposta" style="text-align:center; font-size:14px; color:var(--info); margin-bottom:15px;"></h2>
+            
+            <form id="formAposta" onsubmit="salvarAposta(event)">
+                <div class="form-group">
+                    <label>Seu Nome Completo:</label>
+                    <input type="text" id="nomeApostador" required placeholder="Ex: João da Silva">
+                </div>
+                <div class="form-group">
+                    <label>Seu WhatsApp (apenas números com DDD):</label>
+                    <input type="tel" id="whatsApostador" required placeholder="Ex: 91980000000">
+                </div>
+
+                <label>Seu Palpite:</label>
+                <div class="placar-container">
+                    <div class="team-box">
+                        <img id="imgLogo1" class="team-logo" src="">
+                        <span class="team-label" id="labelTime1">Time 1</span>
+                    </div>
+                    <input type="number" id="golsTime1" min="0" required placeholder="0">
+                    <span class="versus-divider">X</span>
+                    <input type="number" id="golsTime2" min="0" required placeholder="0">
+                    <div class="team-box">
+                        <img id="imgLogo2" class="team-logo" src="">
+                        <span class="team-label" id="labelTime2">Time 2</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="btnSubmitAposta" class="btn-main" style="background-color: var(--success); color: #000;">Confirmar Palpite Grátis 🚀</button>
+            </form>
+        </div>
+
+        <!-- ÁREA DO RECIBO / CONFIRMAÇÃO -->
+        <div id="areaRecibo" style="display:none; text-align:center; margin-top:10px;">
+            <h3 style="color:var(--success);" id="statusReciboTitulo">🎉 Palpite Registrado com Sucesso!</h3>
+            <p style="font-size:12px; color:var(--text-muted);">Guarde o número do seu recibo abaixo:</p>
+            <h2 style="font-size:28px; margin: 10px 0; color:var(--info);" id="codigoReciboVisual">#000000</h2>
+            
+            <button onclick="voltarListaJogos()" class="btn-outline" style="margin-top:12px;">Fazer outro palpite / Voltar</button>
+        </div>
+    </div>
+
+    <!-- 2. TRANSPARÊNCIA -->
+    <div id="areaTransparencia" class="card" style="display: none;">
+        <div class="header">
+            <h1>Transparência 📊</h1>
+            <h2>Palpites Oficiais Cadastrados</h2>
+        </div>
+
+        <select id="selectJogoTransparencia" onchange="carregarTransparencia()" style="margin-bottom: 15px;">
+            <option value="">Selecione um jogo...</option>
+        </select>
+
+        <div class="grid-stats">
+            <div class="stat-card"><h4>Palpites Válidos</h4><p id="publicoTotalApostas">0</p></div>
+            <div class="stat-card"><h4>Modalidade</h4><p style="color:var(--success);">Gratuito</p></div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Apostador</th><th style="text-align: center;">Palpite</th></tr></thead>
+                <tbody id="tabelaPublicaApostas">
+                    <tr><td colspan="2" style="text-align:center;">Selecione um jogo acima.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. CONSULTAR -->
+    <div id="areaConsultar" class="card" style="display: none;">
+        <div class="header"><h1 style="color: var(--warning);">Consultar Palpite</h1></div>
+        <form onsubmit="consultarMinhaAposta(event)">
+            <div class="form-group">
+                <label>WhatsApp ou Código do Recibo:</label>
+                <input type="text" id="inputConsulta" required placeholder="Ex: 91980000000 ou 123456">
+            </div>
+            <button type="submit" id="btnConsultar" class="btn-main" style="background-color: var(--warning); color: #000;">Buscar</button>
+        </form>
+        <div id="resultadoConsulta" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- 4. JOGOS DA SEMANA -->
+    <div id="areaJogos" class="card" style="display: none;">
+        <div class="header"><h1 style="color: var(--info);">Jogos do Dia ⚽</h1></div>
+        <div id="lista-jogos-semana">
+            <p style="text-align: center;">Carregando...</p>
+        </div>
+    </div>
+
+    <!-- 5. PAINEL ADMIN (BANCA) -->
+    <div id="areaAdmin" class="card" style="display: none;">
+        <div id="loginAdmin">
+            <div class="header"><h1>Painel da Banca 🔒</h1></div>
+            <div class="form-group"><input type="password" id="senhaAdminInput" placeholder="Senha Master"></div>
+            <button class="btn-main" onclick="autenticar()">Entrar</button>
+        </div>
+
+        <div id="painelGerenciador" style="display: none;">
+            <div class="header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h1 style="font-size:16px;">GERENCIAMENTO</h1>
+                <button class="btn-secundary" onclick="sairAdmin()">Sair</button>
+            </div>
+
+            <!-- ADICIONAR NOVO JOGO -->
+            <div style="background: rgba(0, 204, 255, 0.05); padding: 14px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                <h3 style="margin-top:0; font-size:13px; color:var(--info);">➕ Adicionar Novo Jogo</h3>
+                <button id="btnBuscarJogos" class="btn-secundary" style="width: 100%; margin-bottom: 8px;" onclick="buscarJogosDaAPI()">
+                    ⬇️ Buscar Jogos da API (Hoje)
+                </button>
+                <select id="selectJogosAPI" style="margin-bottom: 8px; display: none;" onchange="selecionarJogoAPI(this.value)">
+                    <option value="">-- Selecione o Jogo --</option>
+                </select>
+                <div class="form-group"><input type="text" id="adminCampeonato" placeholder="Campeonato (Ex: Brasileirão)"></div>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                    <input type="text" id="adminTime1" placeholder="Time Casa">
+                    <input type="text" id="adminTime2" placeholder="Time Fora">
+                </div>
+                <button class="btn-main" style="background:var(--success); color:#000;" onclick="salvarNovoJogo()">✅ Criar Bolão</button>
+            </div>
+
+            <h3 style="font-size:13px; color:var(--warning);">📋 Jogos Ativos no Bolão</h3>
+            <div id="listaJogosAdmin" style="margin-bottom: 20px;"></div>
+
+            <!-- ESTATÍSTICAS E TABELA GERAL -->
+            <select id="selectJogoAdminTabela" onchange="atualizarTabelaAdmin()" style="margin-bottom: 10px;">
+                <option value="TODOS">Ver Todos os Palpites</option>
+            </select>
+
+            <div class="grid-stats">
+                <div class="stat-card"><h4>Palpites Confirmados</h4><p id="totalConfirmadas">0</p></div>
+                <div class="stat-card"><h4>Modo</h4><p style="color:var(--info);">Gratuito</p></div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Apostador</th><th>Palpite</th><th>Status</th><th>Ação</th></tr></thead>
+                    <tbody id="tabelaApostas"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp, getDocs, query, where, orderBy, setDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTabL7NOHKBQtKqPv9GBpYCOSTUnsfji8",
+        authDomain: "bolaovasco-8d044.firebaseapp.com",
+        projectId: "bolaovasco-8d044",
+        storageBucket: "bolaovasco-8d044.firebasestorage.app",
+        messagingSenderId: "1072999177905",
+        appId: "1:1072999177905:web:3c818655076531ce9c0c90"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    // CONFIGURAÇÕES DA BANCA
+    const SENHA_BANCA = "chefe123";
+    const LOGO_PADRAO = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg";
+    const CHAVE_API_SPORTS = "6a693da098de4ef796827ef7c7ce87d2";
+
+    let apostasGlobais = [];
+    let jogosAtivosGlobais = [];
+    let jogoSelecionadoParaAposta = null; 
+    let tempApiData = {};
+
+    // ESCUTAR JOGOS ATIVOS
+    onSnapshot(collection(db, "jogos_ativos"), (snapshot) => {
+        jogosAtivosGlobais = [];
+        snapshot.forEach(doc => jogosAtivosGlobais.push({ id: doc.id, ...doc.data() }));
+        
+        renderizarJogosApostador();
+        atualizarSelects();
+        if(document.getElementById("painelGerenciador").style.display === "block") {
+            renderizarJogosAdmin();
+        }
+    });
+
+    // ESCUTAR APOSTAS
+    onSnapshot(collection(db, "apostas_bolao"), (snapshot) => {
+        apostasGlobais = [];
+        snapshot.forEach(doc => apostasGlobais.push({ id: doc.id, ...doc.data() }));
+        if(document.getElementById("painelGerenciador").style.display === "block") {
+            atualizarTabelaAdmin();
+            renderizarJogosAdmin(); 
+        }
+        if(document.getElementById("areaTransparencia").style.display === "block") {
+            carregarTransparencia();
+        }
+    });
+
+    window.mudarAba = function(aba) {
+        const abas = ["Apostador", "Transparencia", "Consultar", "Jogos", "Admin"];
+        abas.forEach(a => {
+            const btn = document.getElementById(`btnTab${a}`);
+            const area = document.getElementById(`area${a}`);
+            if (btn) btn.classList.remove("active");
+            if (area) area.style.display = "none";
+        });
+        
+        const abaAtual = aba.charAt(0).toUpperCase() + aba.slice(1);
+        document.getElementById(`btnTab${abaAtual}`).classList.add("active");
+        document.getElementById(`area${abaAtual}`).style.display = "block";
+
+        if (aba === 'jogos') carregarJogosAPI();
+        if (aba === 'apostador') voltarListaJogos();
+    }
+
+    function renderizarJogosApostador() {
+        const container = document.getElementById("containerJogosAtivos");
+        if(jogosAtivosGlobais.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px;">Nenhum jogo aberto no momento.</p>`;
+            return;
+        }
+
+        let html = "";
+        jogosAtivosGlobais.forEach(j => {
+            const isFechado = j.statusJogo === "FT" || j.statusJogo === "Finished" || (j.dataInicio && new Date() >= new Date(j.dataInicio));
+            const corStatus = isFechado ? "var(--primary)" : "var(--success)";
+            const txtStatus = isFechado ? "Palpites Encerrados" : "🟢 Palpitar Agora";
+
+            html += `
+                <div class="jogo-ativo-card" onclick="${isFechado ? '' : `abrirFormularioAposta('${j.id}')`}" style="${isFechado ? 'opacity: 0.6; cursor:not-allowed;' : ''}">
+                    <div class="jogo-ativo-header">${j.campeonato}</div>
+                    <div class="jogo-placar-body">
+                        <div class="team-box"><img src="${j.logo1 || LOGO_PADRAO}" class="team-logo"><span class="team-label">${j.time1}</span></div>
+                        <div style="font-weight:900; font-size:18px; color:var(--text-muted); margin: 0 10px;">X</div>
+                        <div class="team-box"><img src="${j.logo2 || LOGO_PADRAO}" class="team-logo"><span class="team-label">${j.time2}</span></div>
+                    </div>
+                    <div style="text-align:center; margin-top:10px; font-size:11px; font-weight:bold; color:${corStatus};">${txtStatus}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    window.abrirFormularioAposta = function(idJogo) {
+        jogoSelecionadoParaAposta = jogosAtivosGlobais.find(j => j.id === idJogo);
+        if(!jogoSelecionadoParaAposta) return;
+
+        document.getElementById("listaJogosParaApostar").style.display = "none";
+        document.getElementById("formApostaContainer").style.display = "block";
+        document.getElementById("areaRecibo").style.display = "none";
+        
+        document.getElementById("tituloJogoAposta").innerText = `${jogoSelecionadoParaAposta.campeonato}: ${jogoSelecionadoParaAposta.time1} x ${jogoSelecionadoParaAposta.time2}`;
+        document.getElementById("labelTime1").innerText = jogoSelecionadoParaAposta.time1;
+        document.getElementById("labelTime2").innerText = jogoSelecionadoParaAposta.time2;
+        document.getElementById("imgLogo1").src = jogoSelecionadoParaAposta.logo1 || LOGO_PADRAO;
+        document.getElementById("imgLogo2").src = jogoSelecionadoParaAposta.logo2 || LOGO_PADRAO;
+    }
+
+    window.voltarListaJogos = function() {
+        document.getElementById("listaJogosParaApostar").style.display = "block";
+        document.getElementById("formApostaContainer").style.display = "none";
+        document.getElementById("areaRecibo").style.display = "none";
+        document.getElementById("formAposta").reset();
+        jogoSelecionadoParaAposta = null;
+    }
+
+    window.salvarAposta = async function(e) {
+        e.preventDefault();
+        if (!jogoSelecionadoParaAposta) return alert("Erro: Jogo não selecionado.");
+        
+        const btnSubmit = document.getElementById("btnSubmitAposta");
+        btnSubmit.innerText = "Registrando..."; btnSubmit.disabled = true;
+        
+        let codigoRecibo = Math.floor(100000 + Math.random() * 900000);
+        const nome = document.getElementById("nomeApostador").value;
+        const whats = document.getElementById("whatsApostador").value;
+        const gols1 = document.getElementById("golsTime1").value;
+        const gols2 = document.getElementById("golsTime2").value;
+
+        try {
+            // Salva o Palpite no Firebase aprovado automaticamente
+            await addDoc(collection(db, "apostas_bolao"), {
+                nome: nome, 
+                whatsapp: whats,
+                time1: gols1, 
+                time2: gols2,
+                nomeTime1: jogoSelecionadoParaAposta.time1, 
+                nomeTime2: jogoSelecionadoParaAposta.time2, 
+                jogoId: jogoSelecionadoParaAposta.id,
+                valor: 0,
+                status: "Confirmado", 
+                recibo: codigoRecibo, 
+                data: serverTimestamp()
+            });
+            
+            // Exibe recibo de sucesso direto
+            document.getElementById("formApostaContainer").style.display = "none";
+            document.getElementById("areaRecibo").style.display = "block";
+            document.getElementById("codigoReciboVisual").innerText = `#${codigoRecibo}`;
+
+        } catch (error) {
+            alert("Erro ao registrar palpite: " + error.message);
+        } finally {
+            btnSubmit.innerText = "Confirmar Palpite Grátis 🚀"; btnSubmit.disabled = false;
+        }
+    }
+
+    /* =======================================
+       TRANSPARÊNCIA E CONSULTA
+    ======================================= */
+    function atualizarSelects() {
+        const selTransp = document.getElementById("selectJogoTransparencia");
+        const selAdmin = document.getElementById("selectJogoAdminTabela");
+        
+        let htmlTransp = '<option value="">Selecione um jogo...</option>';
+        let htmlAdmin = '<option value="TODOS">Ver Todos os Palpites</option>';
+        
+        jogosAtivosGlobais.forEach(j => {
+            const txt = `${j.time1} x ${j.time2}`;
+            htmlTransp += `<option value="${j.id}">${txt}</option>`;
+            htmlAdmin += `<option value="${j.id}">${txt}</option>`;
+        });
+        
+        const valTransp = selTransp.value;
+        const valAdmin = selAdmin.value;
+        
+        selTransp.innerHTML = htmlTransp;
+        selAdmin.innerHTML = htmlAdmin;
+        
+        if(valTransp) selTransp.value = valTransp;
+        if(valAdmin) selAdmin.value = valAdmin;
+    }
+
+    window.carregarTransparencia = function() {
+        const jogoId = document.getElementById("selectJogoTransparencia").value;
+        const tbody = document.getElementById("tabelaPublicaApostas");
+        const apostasEl = document.getElementById("publicoTotalApostas");
+
+        if (!jogoId) {
+            tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Selecione um jogo acima.</td></tr>';
+            apostasEl.innerText = "0";
+            return;
+        }
+
+        let html = "";
+        let validadas = 0;
+        
+        apostasGlobais.forEach(a => {
+            if (a.jogoId === jogoId && a.status === "Confirmado") {
+                validadas++;
+                html += `<tr><td style="font-size:12px; color:#fff;"><strong>${a.nome}</strong></td><td style="font-weight:bold; font-size:11px; color:var(--warning); text-align:center;">🔒 Oculto</td></tr>`;
+            }
+        });
+
+        if (validadas === 0) html = '<tr><td colspan="2" style="text-align:center; color:#aaa;">Nenhum palpite registrado.</td></tr>';
+        
+        tbody.innerHTML = html;
+        apostasEl.innerText = validadas;
+    }
+
+    window.consultarMinhaAposta = function(e) {
+        e.preventDefault();
+        const inputValor = document.getElementById("inputConsulta").value.trim();
+        const divResultado = document.getElementById("resultadoConsulta");
+        let htmlResultado = "";
+        
+        apostasGlobais.forEach(a => {
+            if (a.whatsapp === inputValor || String(a.recibo) === inputValor) {
+                const jogo = jogosAtivosGlobais.find(j => j.id === a.jogoId);
+                let classeBadge = "badge-confirmado";
+                let textoStatus = "Confirmado";
+                
+                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial !== undefined) {
+                    if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) {
+                        classeBadge = "badge-vencedor"; textoStatus = "🏆 ACERTOU!";
+                    }
+                }
+                
+                htmlResultado += `
+                    <div style="background:var(--input-bg); padding:14px; border-radius:8px; margin-bottom:12px; border-left:4px solid var(--info);">
+                        <p style="margin:0 0 4px; font-weight:bold; color:#fff;">👤 ${a.nome} <span style="font-size:11px; font-weight:normal; color:#aaa;">(Recibo: #${a.recibo})</span></p>
+                        <div style="background:#121214; padding:8px; border-radius:6px; text-align:center; margin:8px 0;">
+                            <span style="font-size:13px; font-weight:700; color:#fff;">${a.nomeTime1} ${a.time1} x ${a.time2} ${a.nomeTime2}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:11px; color:var(--text-muted);">Status:</span>
+                            <span class="badge ${classeBadge}">${textoStatus}</span>
+                        </div>
+                    </div>`;
+            }
+        });
+        
+        divResultado.innerHTML = htmlResultado === "" ? `<p style="color:var(--primary); text-align:center;">Nenhum palpite encontrado.</p>` : htmlResultado;
+    }
+
+    /* =======================================
+       ADMIN - BANCA
+    ======================================= */
+    window.autenticar = function() {
+        if (document.getElementById("senhaAdminInput").value === SENHA_BANCA) {
+            document.getElementById("loginAdmin").style.display = "none";
+            document.getElementById("painelGerenciador").style.display = "block";
+            renderizarJogosAdmin();
+            atualizarTabelaAdmin();
+        } else {
+            alert("Senha incorreta!");
+        }
+    }
+
+    window.sairAdmin = function() {
+        document.getElementById("painelGerenciador").style.display = "none";
+        document.getElementById("loginAdmin").style.display = "block";
+        document.getElementById("senhaAdminInput").value = "";
+    }
+
+    let jogosAPI = [];
+    window.buscarJogosDaAPI = async function() {
+        const btn = document.getElementById("btnBuscarJogos");
+        btn.innerText = "Buscando...";
+        const dataHoje = new Date().toISOString().split('T')[0];
+        try {
+            const response = await fetch(`https://v3.football.api-sports.io/fixtures?date=${dataHoje}&timezone=America/Belem`, { headers: { "x-apisports-key": CHAVE_API_SPORTS }});
+            const result = await response.json();
+            jogosAPI = result.response;
+            if (!jogosAPI.length) return alert("Nenhum jogo!");
+
+            const select = document.getElementById("selectJogosAPI");
+            select.innerHTML = '<option value="">-- Escolha o Jogo --</option>';
+            jogosAPI.forEach((jogo, index) => {
+                select.innerHTML += `<option value="${index}">${jogo.league.name}: ${jogo.teams.home.name} x ${jogo.teams.away.name}</option>`;
+            });
+            select.style.display = "block";
+            btn.innerText = `✅ Jogos Carregados`;
+        } catch (error) {
+            alert("Erro ao buscar jogos."); btn.innerText = "⬇️ Buscar Jogos da API";
+        }
+    }
+
+    window.selecionarJogoAPI = function(index) {
+        if (index === "") return;
+        const j = jogosAPI[index];
+        document.getElementById("adminCampeonato").value = j.league.name;
+        document.getElementById("adminTime1").value = j.teams.home.name;
+        document.getElementById("adminTime2").value = j.teams.away.name;
+        tempApiData = { logo1: j.teams.home.logo, logo2: j.teams.away.logo, fixtureId: j.fixture.id, dataInicio: j.fixture.date };
+    }
+
+    window.salvarNovoJogo = async function() {
+        const camp = document.getElementById("adminCampeonato").value;
+        const t1 = document.getElementById("adminTime1").value;
+        const t2 = document.getElementById("adminTime2").value;
+        if(!camp || !t1 || !t2) return alert("Preencha os campos!");
+
+        try {
+            await addDoc(collection(db, "jogos_ativos"), {
+                campeonato: camp, time1: t1, time2: t2,
+                logo1: tempApiData.logo1 || LOGO_PADRAO, logo2: tempApiData.logo2 || LOGO_PADRAO,
+                fixtureId: tempApiData.fixtureId || null, dataInicio: tempApiData.dataInicio || null,
+                criadoEm: serverTimestamp()
+            });
+            alert("Bolão Criado com Sucesso!");
+            document.getElementById("adminCampeonato").value = "";
+            document.getElementById("adminTime1").value = "";
+            document.getElementById("adminTime2").value = "";
+            document.getElementById("selectJogosAPI").style.display = "none";
+            tempApiData = {};
+        } catch(e) { alert("Erro ao criar bolão."); }
+    }
+
+    function renderizarJogosAdmin() {
+        const container = document.getElementById("listaJogosAdmin");
+        if(jogosAtivosGlobais.length === 0) {
+            container.innerHTML = "<p style='font-size:12px; color:var(--text-muted);'>Nenhum bolão ativo.</p>"; return;
+        }
+
+        let html = "";
+        jogosAtivosGlobais.forEach(j => {
+            let placar = (j.gols1Oficial !== undefined) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : "vs";
+
+            html += `
+                <div style="background:var(--input-bg); padding:12px; border-radius:8px; border:1px solid #3f3f46; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-size:12px;">
+                        <strong style="color:var(--info);">${j.campeonato}</strong><br>
+                        ${j.time1} <b>${placar}</b> ${j.time2}
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+                        ${j.fixtureId ? `<button onclick="sincronizarResultado('${j.id}',${j.fixtureId})" style="background:var(--success); color:#000; border:none; padding:6px; border-radius:4px; font-size:10px; cursor:pointer;">🔄 Sincronizar Placar</button>` : ''}
+                        <button onclick="excluirJogo('${j.id}')" style="background:var(--primary); color:#fff; border:none; padding:6px; border-radius:4px; font-size:10px; cursor:pointer;">🗑️ Excluir Jogo</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    window.sincronizarResultado = async function(docId, fixtureId) {
+        try {
+            const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${fixtureId}`, { headers: { "x-apisports-key": CHAVE_API_SPORTS }});
+            const result = await res.json();
+            if (result.response && result.response.length > 0) {
+                const d = result.response[0];
+                await updateDoc(doc(db, "jogos_ativos", docId), {
+                    gols1Oficial: d.goals.home !== null ? d.goals.home : 0,
+                    gols2Oficial: d.goals.away !== null ? d.goals.away : 0,
+                    statusJogo: d.fixture.status.short
+                });
+                alert(`Placar Atualizado!`);
+            }
+        } catch (e) { alert("Erro ao sincronizar."); }
+    }
+
+    window.excluirJogo = async function(docId) {
+        if(confirm("Tem certeza que deseja apagar o jogo?")) {
+            await deleteDoc(doc(db, "jogos_ativos", docId));
+        }
+    }
+
+    window.atualizarTabelaAdmin = function() {
+        const filtroJogoId = document.getElementById("selectJogoAdminTabela").value;
+        const tbody = document.getElementById("tabelaApostas");
+        tbody.innerHTML = "";
+        
+        let confirmadas = 0, apostasExibidas = 0;
+
+        apostasGlobais.forEach(a => {
+            if (filtroJogoId === "TODOS" || a.jogoId === filtroJogoId) {
+                apostasExibidas++;
+                confirmadas++;
+                
+                const jogo = jogosAtivosGlobais.find(j => j.id === a.jogoId);
+                let ehVencedor = false;
+                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial !== undefined) {
+                    if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) ehVencedor = true;
+                }
+
+                let badge = ehVencedor ? "badge-vencedor" : "badge-confirmado";
+                let txtStatus = ehVencedor ? "🏆 Acertou" : "Válido";
+                let s1 = a.nomeTime1 ? a.nomeTime1.substring(0,3).toUpperCase() : 'T1';
+                let s2 = a.nomeTime2 ? a.nomeTime2.substring(0,3).toUpperCase() : 'T2';
+
+                tbody.innerHTML += `<tr>
+                    <td><strong style="color:#fff;font-size:11px;">${a.nome}</strong><br><span style="color:var(--text-muted);font-size:9px;">${a.whatsapp}</span></td>
+                    <td style="font-weight:bold;font-size:11px;">${s1} ${a.time1}x${a.time2} ${s2}</td>
+                    <td><span class="badge ${badge}">${txtStatus}</span></td>
+                    <td>
+                        <button style="background:rgba(229,9,20,0.2); color:var(--primary); border:none; padding:4px 8px; border-radius:4px;" onclick="excluirAposta('${a.id}')">✕ Excluir</button>
+                    </td>
+                </tr>`;
+            }
+        });
+
+        if(apostasExibidas === 0) tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#888; font-size:11px;">Nenhum palpite encontrado.</td></tr>`;
+
+        document.getElementById("totalConfirmadas").innerText = confirmadas;
+    }
+
+    window.excluirAposta = async function(id) {
+        if(confirm("Deseja remover este palpite?")) {
+            await deleteDoc(doc(db, "apostas_bolao", id));
+        }
+    }
+
+    // JOGOS DO DIA (API)
+    window.carregarJogosAPI = async function() {
+        const container = document.getElementById("lista-jogos-semana");
+        container.innerHTML = '<p style="text-align:center;">Buscando partidas...</p>';
+        const hoje = new Date().toISOString().split('T')[0];
+        try {
+            const res = await fetch(`https://v3.football.api-sports.io/fixtures?date=${hoje}&timezone=America/Belem`, { headers: { "x-apisports-key": CHAVE_API_SPORTS }});
+            const data = await res.json();
+            const ligasPermitidas = [71, 73, 13, 140]; // Brasileirao, Copa BR, Liberta, LaLiga
+            const filtrados = data.response.filter(item => ligasPermitidas.includes(item.league.id));
+            
+            if(filtrados.length === 0) { container.innerHTML = `<p style="text-align:center; font-size:12px;">Nenhum jogo das ligas principais hoje.</p>`; return; }
+            
+            container.innerHTML = filtrados.map(j => `
+                <div class="jogo-card-item">
+                    <div class="jogo-card-header"><strong>${j.league.name}</strong> <span>${new Date(j.fixture.date).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</span></div>
+                    <div class="jogo-placar-body">
+                        <div style="flex:1; text-align:center;"><img src="${j.teams.home.logo}" width="24"><br><span style="font-size:10px; color:#fff;">${j.teams.home.name}</span></div>
+                        <div style="font-size:14px; font-weight:bold;">${j.goals.home ?? '-'} x ${j.goals.away ?? '-'}</div>
+                        <div style="flex:1; text-align:center;"><img src="${j.teams.away.logo}" width="24"><br><span style="font-size:10px; color:#fff;">${j.teams.away.name}</span></div>
+                    </div>
+                </div>
+            `).join("");
+        } catch (e) { container.innerHTML = `<p style="text-align:center; color:var(--primary);">Erro na API.</p>`; }
+    }
+</script>
+</body>
+</html>
+
